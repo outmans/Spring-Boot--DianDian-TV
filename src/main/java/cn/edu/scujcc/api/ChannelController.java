@@ -35,10 +35,9 @@ public class ChannelController {
 	 */
 	@GetMapping
 	public List<Channel> getAllChannel() {
-		logger.info("正在查找所有频道信息...");
+		logger.info("正在查找所有频道信息.....");
 		List<Channel> results = service.getAllChannel();
 		logger.debug("所有的频道的数量是：" + results.size());
-		
 		return results;
 	}
 	/*
@@ -48,7 +47,7 @@ public class ChannelController {
 	 */
 	@GetMapping("/{id}")
 	public Channel getChannel(@PathVariable String id) {
-		System.out.println("获取频道：id=" + id);
+		logger.info("获取频道：id=" + id);
 		Channel c = service.getChannel(id);
 		if(c != null) {
 			return c;

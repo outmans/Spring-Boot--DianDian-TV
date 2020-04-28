@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.edu.scujcc.model.Channel;
+import cn.edu.scujcc.model.Comment;
 import cn.edu.scujcc.service.ChannelService;
 /*
  * 频道接口，提供客户端访问的入口
@@ -87,8 +88,8 @@ public class ChannelController {
 	@PutMapping
 	public Channel updateChannel(@RequestBody Channel c) {
 		logger.debug("即将更新频道，频道数据：" + c);
-		Channel saved = service.updateChannel(c);
-		return saved;
+		Channel updated = service.updateChannel(c);
+		return updated;
 		//return this.service.updateChannel(c);
 	}
 	
@@ -104,5 +105,21 @@ public class ChannelController {
 	@GetMapping("/hot")
 	public List<Channel> getHotChannels(){
 		return service.getLatestCommentsChannel();
+	}
+	
+	/**
+	 * 新增评论
+	 * @param channelId 被评论的频道编号
+	 * @param comment 将要新增的评论对象
+	 */
+	@PostMapping("{channelId}/comment")
+	public void addComment(@PathVariable String channelId, @RequestBody Comment comment) {
+		logger.debug("将为频道"+channelId+"新增一条评论："+comment);
+		service.addComment(channelId, comment);
+	}
+	@GetMapping("/{channelId}/hotcomment")
+	public List<Comment> hotComments(@PathVariable String channelId){
+		logger.debug("将获取频道"+channelId+"的热门评论...");
+		return service.hotComments(channelId);
 	}
 }
